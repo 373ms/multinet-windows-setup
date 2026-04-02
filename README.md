@@ -1,7 +1,7 @@
 # MultiNet Windows Setup — Combine Two Internet Connections for Faster Downloads
 
-Speed up game downloads (Steam, Riot, Wuthering Waves, etc.) by combining 
-your home ethernet and Android phone mobile data simultaneously.
+Speed up game downloads (Steam, Riot, etc.) by combining 
+your home ethernet and a second internet connection simultaneously.
 
 ## My Results
 - Normal speed: ~2.5 MB/s
@@ -14,8 +14,11 @@ your home ethernet and Android phone mobile data simultaneously.
 
 ## Requirements
 - Windows 10/11
-- Android phone with unlimited mobile data
-- USB cable
+- A second internet connection, for example:
+  - Android or iPhone via USB tethering
+  - Android or iPhone via mobile hotspot (connected via WiFi or USB)
+  - A second WiFi network
+  - Any other network adapter with internet access
 
 ## Credits
 - [MultiNet](https://github.com/NadeenUdantha/multinet) by NadeenUdantha
@@ -24,14 +27,17 @@ your home ethernet and Android phone mobile data simultaneously.
 
 ## Setup Guide
 
-### Step 1 — Connect your phone
-1. Connect Android phone via USB cable
-2. Go to **Settings → Hotspot → USB Tethering** → enable it
+### Step 1 — Connect your second internet source
+Connect your second internet source to your PC. For example:
+- **USB tethering** (Android or iPhone): connect via USB cable and enable 
+  USB tethering in phone settings
+- **Mobile hotspot**: connect your PC to your phone's hotspot via WiFi
+- **Second WiFi**: connect a USB WiFi adapter to a second network
 
 ### Step 2 — Find your IP addresses
 Open cmd and run `ipconfig`. Note down:
-- Your ethernet IPv4 address (e.g. `192.168.1.x`)
-- Your phone USB tethering IPv4 address (e.g. `10.x.x.x`)
+- Your primary ethernet IPv4 address (e.g. `192.168.1.x`)
+- Your second connection IPv4 address (e.g. `10.x.x.x`)
 
 ### Step 3 — Edit config.yaml
 ```yaml
@@ -39,9 +45,9 @@ algorithm: weighted-lru
 listen: 127.0.0.1:1080
 paths:
   - type: direct
-    addr: YOUR_ETHERNET_IP      # e.g. 192.168.1.61
+    addr: YOUR_PRIMARY_IP       # e.g. 192.168.1.61
   - type: direct
-    addr: YOUR_PHONE_IP         # e.g. 10.25.42.1
+    addr: YOUR_SECOND_IP        # e.g. 10.25.42.1
 ```
 
 ### Step 4 — Run
@@ -51,7 +57,9 @@ paths:
 
 ## Important Notes
 - Always run START.bat and STOP.bat as **administrator**
-- Your phone IP may change — if speed doesn't improve, run `ipconfig` 
-  and update config.yaml with the new phone IP
+- Your second connection IP may change — if speed doesn't improve, 
+  run `ipconfig` and update config.yaml with the new IP
 - Keep the two cmd windows (MultiNet + tun2socks) open while downloading
 - No need to run this during gaming, only when downloading
+- The more parallel connections the download client uses, the bigger 
+  the speed improvement (Steam, Riot and most game launchers work great)
