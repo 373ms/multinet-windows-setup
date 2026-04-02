@@ -1,0 +1,7 @@
+algorithm: weighted-lru
+listen: 127.0.0.1:1080
+paths:
+  - type: direct
+    addr: YOUR_ETHERNET_IP
+  - type: direct
+    addr: YOUR_2ND_NETWORK_IP
